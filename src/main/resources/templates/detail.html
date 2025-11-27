@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Detail</title>
+</head>
+<body>
+    <h2 th:text="${question.optionA}+' vs '+${question.optionB}+'?' "></h2>
+
+    <div>
+        <div>
+            <h3>A</h3>
+            <p th:text="${question.optionA}"></p>
+        </div>
+        <div>
+            <h3>B</h3>
+            <p th:text="${question.optionB}"></p>
+        </div>
+    </div>
+
+    <hr>
+    
+    <div>
+        <h3>투표하기</h3>
+        <form th:action="@{/questions/{id}/answers(id=${question.id})}" method="post"
+        th:object="${answer}">
+            <div>
+                <label>선택</label><br>
+                <select required="" th:field="*{answerText}">
+                    <option value="">-- 선택하세요 --</option>
+                    <option value="A">A</option>
+                    <option value="B">B</option>
+                </select>
+            </div>
+            <br>
+            <div>
+                <label for="content">의견</label><br>
+                <textarea  id="content" rows="3" placeholder="선택 이유를 적어주세요" required="" th:field="*{content}"></textarea>
+            </div>
+            <br>
+            <button type="submit">투표하기</button>
+        </form>
+    </div>
+
+    <hr>
+
+    <div>
+        <h3>투표 결과</h3>
+        <div>
+
+        </div>
+    </div>
+
+
+
+
+
+</body>
+</html>

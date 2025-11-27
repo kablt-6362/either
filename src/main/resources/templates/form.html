@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+
+<form th:action="@{/questions}" method="post"
+th:object="${question}">
+    <label for="title">질문</label>
+    <input type="text"
+           th:field="*{title}" id="title">
+    <label for="optionA">A</label>
+    <input type="text" th:field="*{optionA}" id="optionA">
+    <label for="optionB">B</label>
+    <input type="text" th:field="*{optionB}" id="optionB">
+    <input type="submit">
+</form>
+
+<a href="">목록으로</a>
+
+</body>
+</html>
