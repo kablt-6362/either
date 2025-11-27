@@ -3,26 +3,52 @@
 <head>
     <meta charset="UTF-8">
     <title>Detail</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
 </head>
 <body>
     <h2 th:text="${question.optionA}+' vs '+${question.optionB}+'?' "></h2>
 
     <div>
-        <div>
-            <h3>A</h3>
-            <p th:text="${question.optionA}"></p>
-        </div>
-        <div>
-            <h3>B</h3>
-            <p th:text="${question.optionB}"></p>
+<!--  prograss Bar 만들곳  <p th:text="${percentA}"></p>  <p th:text="${percentB}"></p> 해당 두개의 값을 기준으로 만들려고해
+
+   -->
+        <div class="row mb-4 justify-content-center">
+            <div class="col-8">
+                <h3 class="mb-3 text-center">투표 비율</h3>
+
+                <div class="progress" style="height: 35px;">
+                    <div class="progress-bar bg-primary"
+                         role="progressbar"
+                         th:style="'width: '+${percentA}+'%;'"
+                         th:aria-valuenow="${percentA}"
+                         aria-valuemin="0"
+                         aria-valuemax="100">
+                        <span th:text="${question.optionA} + ' (' + ${#numbers.formatDecimal(percentA, 1, 1)} + '%)'"></span>
+                    </div>
+
+                    <div class="progress-bar bg-danger"
+                         role="progressbar"
+                         th:style="'width: '+${percentB}+'%;'"
+                         th:aria-valuenow="${percentB}"
+                         aria-valuemin="0"
+                         aria-valuemax="100">
+                        <span th:text="${question.optionB} + ' (' + ${#numbers.formatDecimal(percentB, 1, 1)} + '%)'"></span>
+                    </div>
+                </div>
+
+                <p class="mt-2 text-center">
+                    **A: <span th:text="${#numbers.formatDecimal(percentA, 1, 1)} + '%'"></span>** &nbsp;|&nbsp;
+                    **B: <span th:text="${#numbers.formatDecimal(percentB, 1, 1)} + '%'"></span>**
+                </p>
+            </div>
         </div>
     </div>
 
     <hr>
-    
+
     <div>
         <h3>투표하기</h3>
-        <form th:action="@{/questions/{id}/answers(id=${question.id})}" method="post"
+        <form th:action="@{/questions/{postId}/answers(postId=${question.id})}" method="post"
         th:object="${answer}">
             <div>
                 <label>선택</label><br>
@@ -46,14 +72,16 @@
 
     <div>
         <h3>투표 결과</h3>
-        <div>
-
+        <div th:each="answer : ${answers}">
+            <div>
+                <strong th:text="${answer.answerText}"></strong><span th:text="' - '+${answer.content}"></span>
+            </div>
         </div>
     </div>
 
+    <br>
+    <a href="/questions">목록으로</a>
 
-
-
-
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js" integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI" crossorigin="anonymous"></script>
 </body>
 </html>

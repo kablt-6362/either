@@ -7,6 +7,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
+
 @Service
 @RequiredArgsConstructor
 @Transactional(readOnly = true)
@@ -26,5 +28,23 @@ public class AnswerService {
         question.addAnswer(answer);
         Answer saved = answerRepository.save(answer);
         return saved;
+    }
+
+    public List<Answer> getAllAnswer(Long id) {
+        return answerRepository.findByQuestionId(id);
+
+    }
+
+    public int getAnswerTextA(Long id) {
+        List<Answer> answers = answerRepository.findByQuestionId(id).stream().filter(answer -> answer.getAnswerText().equals("A")).toList();
+
+        return answers.size();
+    }
+
+    public int getAnswerTextB(Long id) {
+        List<Answer> answers = answerRepository.findByQuestionId(id).stream().filter(answer -> answer.getAnswerText().equals("B")).toList();
+
+        return answers.size();
+
     }
 }

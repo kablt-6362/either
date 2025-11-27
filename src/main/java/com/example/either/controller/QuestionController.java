@@ -47,17 +47,36 @@ public class QuestionController {
                          Model model){
 
         Question question = questionService.getById(id);
+        List<Answer> answers = answerService.getAllAnswer(id);
+        int countA = answerService.getAnswerTextA(id);
+        int countB = answerService.getAnswerTextB(id);
+        int total = countA + countB;
+        double percentA =0;
+        double percentB= 0;
+        if(total != 0){
+        percentA = ((double) countA /total)*100;
+        percentA = (double)((int)(percentA*10))/10;
+        percentB = ((double) countB /total)*100;
+        percentB = (double) ((int)(percentB*10))/10;
+        }
+
+        model.addAttribute("percentA",percentA);
+        model.addAttribute("percentB",percentB);
+        model.addAttribute("countB",countB);
+        model.addAttribute("countA",countA);
+        model.addAttribute("answers",answers);
         model.addAttribute("question",question);
         model.addAttribute("answer",new Answer());
         return "detail";
     }
 
-    @PostMapping("/{id}/answers")
-    public String createAnswer(@PathVariable Long id, @ModelAttribute Answer answer){
-        System.out.println(answer);
-        answerService.createAnswer(id,answer);
+    @PostMapping("/{postId}/answers")
+    public String createAnswer(@PathVariable Long postId, @ModelAttribute Answer answer,Model model){
 
-        return "redirect:/questions/"+ id;
+        answerService.createAnswer(postId,answer);
+
+
+        return "redirect:/questions/"+ postId;
     }
 
 

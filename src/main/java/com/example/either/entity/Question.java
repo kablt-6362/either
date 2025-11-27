@@ -32,8 +32,8 @@ public class Question {
     private List<Answer> answers = new ArrayList<>();
 
     public void addAnswer(Answer answer){
-        answer.setQuestion(this);
         answers.add(answer);
+        answer.setQuestion(this);
     }
 
 }
